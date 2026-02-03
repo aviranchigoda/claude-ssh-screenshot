@@ -1,18 +1,18 @@
-# Claude SSH Screenshot
+# SSH Screenshot Tool
 
-**One-keystroke screenshot sharing from Mac to remote Claude Code over SSH.**
+**One-keystroke screenshot sharing from Mac to a remote Linux server over SSH.**
 
-Press `Cmd+Shift+V`, select an area, and the image path auto-pastes into your terminal. Claude can then read and analyze the image.
+Press `Cmd+Shift+V`, select an area, and the image path auto-pastes into the terminal. An AI assistant can then read and analyze the image.
 
 ## The Problem
 
-When you're SSH'd into a remote server running [Claude Code](https://claude.ai/code), you can't paste images directly - SSH doesn't share your clipboard. This tool solves that.
+When SSH'd into a remote server running an AI coding assistant, images cannot be pasted directly - SSH doesn't share the clipboard. This tool solves that.
 
 ## The Solution
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        Your Mac                                  │
+│                          Mac                                     │
 │                                                                  │
 │  Cmd+Shift+V → Screenshot selector → Upload via SCP             │
 │                                                                  │
@@ -25,8 +25,8 @@ When you're SSH'd into a remote server running [Claude Code](https://claude.ai/c
 │                                                                  │
 │  ~/.claude/paste-cache/images/2024-01-15_143022_a7f3b2.png      │
 │                                                                  │
-│  Path auto-pastes into your Claude Code terminal                │
-│  Claude reads the image and responds                            │
+│  Path auto-pastes into the active terminal                      │
+│  The AI assistant reads the image and responds                  │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -35,17 +35,17 @@ When you're SSH'd into a remote server running [Claude Code](https://claude.ai/c
 
 ### Prerequisites
 
-**On your Mac:**
+**On the Mac:**
 - [Homebrew](https://brew.sh/)
 - [Hammerspoon](https://www.hammerspoon.org/) (for keyboard shortcut)
-- SSH access to your remote server
+- SSH access to the remote server
 
-**On your server:**
-- Claude Code installed and running
+**On the server:**
+- An AI coding assistant installed and running
 
 ### Installation (5 minutes)
 
-#### Step 1: Install dependencies on Mac
+#### Step 1: Install dependencies on the Mac
 
 ```bash
 # Install pngpaste (extracts images from clipboard)
@@ -73,18 +73,18 @@ chmod +x ~/bin/claude-paste.sh
 Edit `~/bin/claude-paste.sh` and update these variables:
 
 ```bash
-# Your SSH alias or user@host
-SSH_ALIAS="your-server-alias"
+# The SSH alias or user@host
+SSH_ALIAS="server-alias"
 
 # Remote user's home directory
-REMOTE_HOME_FALLBACK="/home/your-username"
+REMOTE_HOME_FALLBACK="/home/username"
 ```
 
 #### Step 4: Set up server-side directory
 
 ```bash
-# SSH into your server and create the images directory
-ssh your-server 'mkdir -p ~/.claude/paste-cache/images'
+# SSH into the server and create the images directory
+ssh server-alias 'mkdir -p ~/.claude/paste-cache/images'
 ```
 
 #### Step 5: Configure Hammerspoon hotkey
@@ -92,7 +92,7 @@ ssh your-server 'mkdir -p ~/.claude/paste-cache/images'
 Add to `~/.hammerspoon/init.lua`:
 
 ```lua
--- Claude Code Image Paste (Cmd+Shift+V)
+-- SSH Image Paste (Cmd+Shift+V)
 hs.hotkey.bind({"cmd", "shift"}, "V", function()
     hs.execute(os.getenv("HOME") .. "/bin/claude-paste.sh", true)
 end)
@@ -102,26 +102,26 @@ Then reload Hammerspoon: Click menu bar icon → Reload Config
 
 #### Step 6: Grant permissions
 
-1. Open Hammerspoon (it appears in your menu bar)
+1. Open Hammerspoon (it appears in the menu bar)
 2. Go to **System Settings → Privacy & Security → Accessibility**
 3. Enable **Hammerspoon**
 
 ## Usage
 
-1. **Have Claude Code active** in your terminal (SSH'd into your server)
+1. **Have the AI assistant active** in the terminal (SSH'd into the server)
 2. **Press `Cmd+Shift+V`**
 3. **Select an area** with the crosshair cursor
-4. **Path auto-pastes** into your terminal
-5. **Type your question** and press Enter
+4. **Path auto-pastes** into the terminal
+5. **Type a question** and press Enter
 
 ### Example
 
 ```
-You: /home/user/.claude/paste-cache/images/2024-01-15_143022_a7f3b2.png
+User: /home/user/.claude/paste-cache/images/2024-01-15_143022_a7f3b2.png
 
 What does this error message mean?
 
-Claude: I can see the error in your screenshot. The issue is...
+Assistant: The error in the screenshot indicates...
 ```
 
 ## Configuration
@@ -129,7 +129,7 @@ Claude: I can see the error in your screenshot. The issue is...
 ### Environment Variables
 
 | Variable | Description | Default |
-|----------|-------------|---------|
+|----------|-------------|--------|
 | `CLAUDE_SSH_ALIAS` | SSH alias or user@host | `linode-sydney` |
 
 ### Changing the Hotkey
@@ -143,9 +143,9 @@ hs.hotkey.bind({"ctrl", "shift"}, "S", function()
 end)
 ```
 
-## Claude Code Triggers (Optional)
+## Optional Triggers
 
-Add these triggers to your Claude Code configuration for convenience:
+Add these triggers to the AI assistant configuration for convenience:
 
 | Command | Action |
 |---------|--------|
@@ -167,26 +167,26 @@ See [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) for detailed solutions to
 - Check Accessibility permissions
 
 **Upload fails:**
-- Test SSH: `ssh your-server 'echo OK'`
-- Check directory exists: `ssh your-server 'ls ~/.claude/paste-cache/images/'`
+- Test SSH: `ssh server-alias 'echo OK'`
+- Check directory exists: `ssh server-alias 'ls ~/.claude/paste-cache/images/'`
 
 **Path is garbled:**
-- Make sure you're using `hs.execute()` not `hs.task.new()`
-- Update your Hammerspoon config from this repo
+- Make sure `hs.execute()` is used, not `hs.task.new()`
+- Update the Hammerspoon config from this repo
 
 ## How It Works
 
 1. **Hammerspoon** intercepts `Cmd+Shift+V` and runs the script
-2. **screencapture -ic** opens macOS screenshot selector
+2. **screencapture -ic** opens the macOS screenshot selector
 3. **pngpaste** extracts the screenshot from clipboard
 4. **scp** uploads the image to the remote server
-5. **pbcopy** + **osascript keystroke "v"** pastes the path into your terminal
-6. **Claude Code** reads the image using its Read tool
+5. **pbcopy** + **osascript keystroke "v"** pastes the path into the terminal
+6. **The AI assistant** reads the image using its file read capability
 
 ## File Structure
 
 ```
-clause-ssh-screenshot/
+ssh-screenshot/
 ├── README.md                 # This file
 ├── LICENSE                   # MIT License
 ├── mac/
@@ -194,7 +194,7 @@ clause-ssh-screenshot/
 │   └── hammerspoon-init.lua  # Hammerspoon configuration
 ├── server/
 │   ├── setup.sh              # Server setup script
-│   └── triggers.json         # Claude Code triggers
+│   └── triggers.json         # Optional triggers
 └── docs/
     └── TROUBLESHOOTING.md    # Detailed troubleshooting
 ```
@@ -204,8 +204,8 @@ clause-ssh-screenshot/
 - **macOS** 12.0+ (Monterey or later)
 - **Hammerspoon** 0.9.93+
 - **pngpaste** (installed via Homebrew)
-- **SSH access** to remote server
-- **Claude Code** running on remote server
+- **SSH access** to the remote server
+- **An AI coding assistant** running on the remote server
 
 ## License
 
@@ -214,7 +214,3 @@ MIT License - see [LICENSE](LICENSE)
 ## Contributing
 
 Contributions welcome! Please open an issue or PR.
-
-## Credits
-
-Built with [Claude Code](https://claude.ai/code) by Anthropic.

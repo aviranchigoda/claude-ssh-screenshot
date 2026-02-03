@@ -1,8 +1,8 @@
 -- =============================================================================
--- Claude Code Image Paste - Hammerspoon Configuration
+-- SSH Image Paste - Hammerspoon Configuration
 -- =============================================================================
 -- 
--- Add this to your ~/.hammerspoon/init.lua
+-- Add this to ~/.hammerspoon/init.lua
 -- Then reload Hammerspoon: Click menu bar icon → Reload Config
 --
 -- Prerequisites:
@@ -13,18 +13,18 @@
 --
 -- =============================================================================
 
--- Claude Code Image Paste (Cmd+Shift+V)
+-- SSH Image Paste (Cmd+Shift+V)
 -- 
 -- Workflow:
 --   1. Press Cmd+Shift+V
 --   2. Select area with crosshair
 --   3. Screenshot uploads to server
---   4. Path auto-pastes into your active terminal
---   5. Type your question and press Enter
+--   4. Path auto-pastes into the active terminal
+--   5. Type a question and press Enter
 --
 hs.hotkey.bind({"cmd", "shift"}, "V", function()
     hs.execute(os.getenv("HOME") .. "/bin/claude-paste.sh", true)
 end)
 
 -- Optional: Uncomment to show confirmation when config loads
--- hs.alert.show("Claude Paste loaded: Cmd+Shift+V")
+-- hs.alert.show("Screenshot Paste loaded: Cmd+Shift+V")

@@ -1,5 +1,5 @@
 {
-  "_comment": "Add this 'image' section to your ~/.claude/config/triggers.json",
+  "_comment": "Add this 'image' section to the triggers configuration",
   "image": [
     {
       "pattern": "^(show images|list images|recent images|recent screenshots)",

@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-Common issues and solutions for Claude SSH Screenshot.
+Common issues and solutions for SSH Screenshot.
 
 ## Table of Contents
 
@@ -52,24 +52,24 @@ ls -la ~/bin/claude-paste.sh
 ## Upload Fails
 
 ### Symptoms
-- Crosshair appears, you select area
+- Crosshair appears, area is selected
 - Notification says "Upload failed"
 
 ### Solutions
 
 **1. Test SSH connection**
 ```bash
-ssh your-server-alias 'echo "Connection OK"'
+ssh server-alias 'echo "Connection OK"'
 ```
 
 **2. Check remote directory exists**
 ```bash
-ssh your-server-alias 'ls -la ~/.claude/paste-cache/images/'
+ssh server-alias 'ls -la ~/.claude/paste-cache/images/'
 ```
 
 **3. Create directory if missing**
 ```bash
-ssh your-server-alias 'mkdir -p ~/.claude/paste-cache/images'
+ssh server-alias 'mkdir -p ~/.claude/paste-cache/images'
 ```
 
 **4. Check SSH alias in script**
@@ -81,7 +81,7 @@ grep SSH_ALIAS ~/bin/claude-paste.sh
 **5. Test SCP manually**
 ```bash
 echo "test" > /tmp/test.txt
-scp /tmp/test.txt your-server-alias:~/.claude/paste-cache/images/
+scp /tmp/test.txt server-alias:~/.claude/paste-cache/images/
 ```
 
 ---
@@ -126,7 +126,7 @@ end)
 ### Solutions
 
 **1. Check system volume**
-- Make sure Mac isn't muted
+- Make sure the Mac isn't muted
 
 **2. Check sound file exists**
 ```bash
@@ -196,6 +196,6 @@ hs.inspect(hs.hotkey.getHotkeys())
    - `scp /tmp/test.png server:path/` (upload)
 
 4. **Open an issue** on GitHub with:
-   - Your macOS version
+   - The macOS version
    - Hammerspoon console output
    - Script output with `set -x` enabled

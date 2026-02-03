@@ -1,13 +1,13 @@
 #!/bin/bash
 # =============================================================================
-# setup.sh - Server-side setup for Claude SSH Screenshot
+# setup.sh - Server-side setup for SSH Screenshot
 # =============================================================================
-# Run this script on your remote server to set up the image cache directory.
+# Run this script on the remote server to set up the image cache directory.
 # =============================================================================
 
 set -euo pipefail
 
-echo "Setting up Claude SSH Screenshot on server..."
+echo "Setting up SSH Screenshot on server..."
 echo ""
 
 # Create images directory
@@ -28,7 +28,7 @@ echo ""
 echo "Setup complete!"
 echo ""
 echo "Next steps:"
-echo "  1. On your Mac, install the claude-paste.sh script"
+echo "  1. On the Mac, install the claude-paste.sh script"
 echo "  2. Configure Hammerspoon with the hotkey"
 echo "  3. Press Cmd+Shift+V to test"
 echo ""
