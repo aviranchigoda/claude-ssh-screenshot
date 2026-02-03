@@ -1,0 +1,20 @@
+{
+  "_comment": "Add this 'image' section to your ~/.claude/config/triggers.json",
+  "image": [
+    {
+      "pattern": "^(show images|list images|recent images|recent screenshots)",
+      "action": "LIST_IMAGES",
+      "message": "📷 IMAGE: List recent images from ~/.claude/paste-cache/images/ - run: ls -lt ~/.claude/paste-cache/images/ | head -10"
+    },
+    {
+      "pattern": "^(latest image|last screenshot|show screenshot|latest screenshot)",
+      "action": "SHOW_LATEST",
+      "message": "📷 IMAGE: Get most recent image path - run: ls -t ~/.claude/paste-cache/images/ | head -1 | xargs -I {} echo ~/.claude/paste-cache/images/{}"
+    },
+    {
+      "pattern": "^clear images",
+      "action": "CLEAR_IMAGES",
+      "message": "📷 IMAGE: Clear old images (keep last 10) - run: cd ~/.claude/paste-cache/images && ls -t | tail -n +11 | xargs -r rm"
+    }
+  ]
+}
